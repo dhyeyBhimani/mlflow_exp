@@ -11,6 +11,11 @@ from mlflow.models import infer_signature
 import sys
 from urllib.parse import urlparse
 
+import dagshub
+dagshub.init(repo_owner='dhyeyBhimani', repo_name='mlflow_exp', mlflow=True)
+
+
+
 
 
 import logging
@@ -67,14 +72,17 @@ if __name__ =="__main__":
         mlflow.log_metric("r2", r2)
 
 
-        prediction  = model.predict(X_train)
-        signature = infer_signature(X_train, prediction)
+        # prediction  = model.predict(X_train)
+        # signature = infer_signature(X_train, prediction)
+
+        remote_server_uri="https://dagshub.com/dhyeyBhimani/mlflow_exp.mlflow"
+        mlflow.set_tracking_uri(remote_server_uri)
 
 
         tracking_yrl_pass = urlparse(mlflow.get_tracking_uri()).scheme
 
         if tracking_yrl_pass != 'file':
-            mlflow.sklearn.log_model(model, "model", registered_model_name="ElasticnetWineModel",signature=signature)
+            mlflow.sklearn.log_model(model, "model", registered_model_name="ElasticnetWineModel")
         else:
             mlflow.sklearn.log_model(model, "model")
     
