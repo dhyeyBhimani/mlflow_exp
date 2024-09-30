@@ -29,8 +29,12 @@ if __name__ =="__main__":
     np.random.seed(42)
 
     # Read the wine quality data
+
+    csv_url = (
+        "https://raw.githubusercontent.com/mlflow/mlflow/master/tests/datasets/winequality-red.csv"
+    )
     try:
-        data = pd.read_csv('Data\cleaned_wine_data.csv')
+        data = pd.read_csv(csv_url,sep=";")
     except Exception as e:
         logging.exception("Data not found")
 
